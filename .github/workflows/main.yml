@@ -37,7 +37,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt update
-          sudo apt install -y wine64 wine32 mono-complete
+          sudo apt install -y wine64 wine32 mono
 
       # - name: Generate using pnpm
       #   run: pnpm generate
