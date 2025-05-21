@@ -26,11 +26,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install pnpm
-        run: npm install -g pnpm # Install pnpm globally
+      # - name: Install pnpm
+      #   run: npm install -g pnpm # Install pnpm globally
 
-      - name: Install dependencies using pnpm
-        run: pnpm install # Use pnpm to install dependencies
+      - name: Install dependencies using npm
+        run: npm install # Use pnpm to install dependencies
 
       - name: Install Wine (for Windows builds on non-Windows runners)
         if: matrix.platform == 'win32'
@@ -48,6 +48,6 @@ jobs:
 
       - name: Publish to GitHub Releases
         run: |
-          pnpm publish --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+          npx electron-forge publish --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
