@@ -68,6 +68,8 @@ const config: ForgeConfig = {
           owner: 'rajnish93',
           name: 'electron-nuxt',
         },
+        draft: false,
+        prerelease: false,
       },
     },
   ],
