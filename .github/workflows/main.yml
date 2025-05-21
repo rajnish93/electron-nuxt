@@ -48,6 +48,6 @@ jobs:
 
       - name: Publish to GitHub Releases
         run: |
-          pnpx electron-forge publish --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+          pnpm publish --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
