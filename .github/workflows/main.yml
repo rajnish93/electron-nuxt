@@ -50,4 +50,4 @@ jobs:
         run: |
           npx electron-forge publish --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
