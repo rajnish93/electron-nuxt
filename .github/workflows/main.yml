@@ -4,51 +4,63 @@ on:
   push:
     branches:
       - main
-    # tags:
-    #   - 'v*' # This triggers the release when a tag is pushed
+    tags:
+      - 'v*' # optional: enable if you only want to release on version tags
 
 jobs:
-  release:
+  build-linux:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform: [win32, darwin, linux] # Define the platforms
-        arch: [x64] # Define the architectures
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # - name: Install pnpm
-      #   run: npm install -g pnpm # Install pnpm globally
+      - name: Install dependencies
+        run: npm install
 
-      - name: Install dependencies using npm
-        run: npm install # Use pnpm to install dependencies
-
-      - name: Install Wine (for Windows builds on non-Windows runners)
-        if: matrix.platform == 'win32'
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo apt update
-          sudo apt install -y wine mono-complete
-          
-
-      # - name: Generate using pnpm
-      #   run: pnpm generate
-
-      # - name: Build and package Electron app for ${{ matrix.platform }}-${{ matrix.arch }}
-      #   run: |
-      #     pnpx electron-forge make -- --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
-
-      - name: Publish to GitHub Releases
-        run: |
-          npx electron-forge publish --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+      - name: Make and Publish Linux Build
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx electron-forge publish
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Make and Publish Windows Build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx electron-forge publish
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Make and Publish macOS Build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx electron-forge publish
