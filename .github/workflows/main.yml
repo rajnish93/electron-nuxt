@@ -24,7 +24,7 @@ jobs:
 
       - name: Make and Publish Linux Build
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx electron-forge publish
 
   build-windows:
@@ -43,7 +43,7 @@ jobs:
 
       - name: Make and Publish Windows Build
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx electron-forge publish
 
   build-macos:
@@ -62,5 +62,5 @@ jobs:
 
       - name: Make and Publish macOS Build
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx electron-forge publish
