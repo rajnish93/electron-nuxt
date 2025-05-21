@@ -1,0 +1,53 @@
+name: Release Electron App
+
+on:
+  push:
+    branches:
+      - electron
+    # tags:
+    #   - 'v*' # This triggers the release when a tag is pushed
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [win32, darwin, linux] # Define the platforms
+        arch: [x64] # Define the architectures
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        run: npm install -g pnpm # Install pnpm globally
+
+      - name: Install dependencies using pnpm
+        run: pnpm install # Use pnpm to install dependencies
+
+      - name: Install Wine (for Windows builds on non-Windows runners)
+        if: matrix.platform == 'win32'
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt update
+          sudo apt install -y wine64 wine32 mono-complete
+
+      # - name: Generate using pnpm
+      #   run: pnpm generate
+
+      # - name: Build and package Electron app for ${{ matrix.platform }}-${{ matrix.arch }}
+      #   run: |
+      #     pnpx electron-forge make -- --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+
+      - name: Publish to GitHub Releases
+        run: |
+          pnpx electron-forge publish --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
