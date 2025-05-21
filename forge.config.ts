@@ -60,6 +60,18 @@ const config: ForgeConfig = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'rajnish93',
+          name: 'electron-nuxt',
+        },
+        prerelease: true,
+      },
+    },
+  ],
 };
 
 export default config;
