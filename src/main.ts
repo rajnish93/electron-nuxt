@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, dialog, Menu } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import { updateElectronApp } from 'update-electron-app';
@@ -54,6 +54,57 @@ app.on('activate', () => {
 });
 
 updateElectronApp();
+
+const isMac = process.platform === 'darwin';
+
+const template: Array<Electron.MenuItemConstructorOptions> = [
+  {
+    label: 'File',
+    submenu: [isMac ? { role: 'close' } : { role: 'quit' }],
+  },
+  {
+    label: 'View',
+    submenu: [
+      { role: 'reload' },
+      { role: 'forceReload' },
+      // { role: 'toggleDevTools' },
+      // { type: 'separator' },
+      // { role: 'resetZoom' },
+      // { role: 'zoomIn' },
+      // { role: 'zoomOut' },
+      // { type: 'separator' },
+      { role: 'togglefullscreen' },
+    ],
+  },
+  {
+    label: 'Help',
+    submenu: [
+      {
+        label: 'About',
+        click() {
+          const aboutMessage = `
+    App Name: ${app.getName()}
+    Version: ${app.getVersion()}
+    Electron: ${process.versions.electron}
+    Chromium: ${process.versions.chrome}
+    Node.js: ${process.versions.node}
+    V8: ${process.versions.v8}
+    OS: ${process.platform} ${process.arch}
+  `;
+          dialog.showMessageBox({
+            type: 'info',
+            title: 'About',
+            message: aboutMessage,
+            buttons: ['OK'],
+          });
+        },
+      },
+    ],
+  },
+];
+
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
