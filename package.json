@@ -1,7 +1,7 @@
 {
   "name": "nuxt-electron-app",
   "productName": "nuxt-electron-app",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
   "repository": {
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@electron-forge/cli": "^7.8.1",
     "@electron-forge/maker-deb": "^7.8.1",
+    "@electron-forge/maker-dmg": "^7.8.1",
     "@electron-forge/maker-rpm": "^7.8.1",
     "@electron-forge/maker-squirrel": "^7.8.1",
     "@electron-forge/maker-zip": "^7.8.1",
@@ -32,6 +33,7 @@
     "@electron-forge/plugin-vite": "^7.8.1",
     "@electron-forge/publisher-github": "^7.8.1",
     "@electron/fuses": "^1.8.0",
+    "@types/electron-squirrel-startup": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "electron": "36.2.0",
